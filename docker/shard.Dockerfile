@@ -1,6 +1,6 @@
 FROM rust:1.75 AS builder
 WORKDIR /app
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml ./
 COPY shard/Cargo.toml shard/Cargo.toml
 COPY sim/Cargo.toml sim/Cargo.toml
 RUN mkdir -p shard/src sim/src && \

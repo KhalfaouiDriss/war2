@@ -1,6 +1,26 @@
-.PHONY: up down logs build test lint clean wasm migrate seed rebuild
+.PHONY: help up down logs build test lint clean wasm migrate seed rebuild fmt clippy doc
 
-# Start all services
+# Default target
+help:
+	@echo "War2 - Persistent World RTS/MMO"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  make up          - Start all services (detached)"
+	@echo "  make up-logs     - Start all services with logs"
+	@echo "  make down        - Stop all services"
+	@echo "  make logs        - View logs"
+	@echo "  make build       - Build all services (release)"
+	@echo "  make test        - Run all tests"
+	@echo "  make lint        - Run clippy and fmt check"
+	@echo "  make wasm        - Build WASM for client"
+	@echo "  make migrate     - Run database migrations"
+	@echo "  make clean       - Stop services and remove all build artifacts"
+	@echo "  make rebuild     - Clean and rebuild everything"
+	@echo "  make fmt         - Format code"
+	@echo "  make clippy      - Run clippy"
+	@echo "  make doc         - Generate documentation"
+
+# Start all services (detached)
 up:
 	docker compose up -d --build
 

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   gateway:
     build:
@@ -21,6 +19,8 @@ services:
       - shard-2
     volumes:
       - ./gateway:/app/gateway
+      - ./sim:/app/sim
+      - ./migrations:/app/migrations
     command: cargo watch -x "run --bin gateway"
 
   shard-1:
@@ -44,6 +44,7 @@ services:
       - postgres
     volumes:
       - ./sim:/app/sim
+      - ./shard:/app/shard
     command: cargo watch -x "run --bin shard"
 
   shard-2:
@@ -67,6 +68,7 @@ services:
       - postgres
     volumes:
       - ./sim:/app/sim
+      - ./shard:/app/shard
     command: cargo watch -x "run --bin shard"
 
   redis:
