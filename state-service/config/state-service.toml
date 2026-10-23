@@ -1,0 +1,13 @@
+[state_service]
+snapshot_interval_ticks = 1000
+
+[redis]
+url = "redis://redis:6379"
+
+[postgres]
+url = "postgres://war2:war2@postgres:5432/war2"
+
+[season]
+duration_days = 14
+transition_downtime_minutes = 5
+spawn_window_minutes = 30

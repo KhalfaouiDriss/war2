@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: docker/gateway.Dockerfile
+      target: dev
+    ports:
+      - "8080:8080"
+    environment:
+      - RUST_LOG=debug
+      - JWT_SECRET=${JWT_SECRET:-your-256-bit-secret-here}
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgres://war2:war2@postgres:5432/war2
+      - SHARD_ADDRESSES=shard-1:9001,shard-2:9002
+    depends_on:
+      - redis
+      - postgres
+      - shard-1
+      - shard-2
+    volumes:
+      - ./gateway:/app/gateway
+    command: cargo watch -x "run --bin gateway"
+
+  shard-1:
+    build:
+      context: .
+      dockerfile: docker/shard.Dockerfile
+      target: dev
+    ports:
+      - "9001:9001"
+    environment:
+      - RUST_LOG=debug
+      - SHARD_ID=shard-1
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgres://war2:war2@postgres:5432/war2
+      - REGION_MIN_X=0
+      - REGION_MAX_X=25000
+      - REGION_MIN_Y=0
+      - REGION_MAX_Y=50000
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./sim:/app/sim
+    command: cargo watch -x "run --bin shard"
+
+  shard-2:
+    build:
+      context: .
+      dockerfile: docker/shard.Dockerfile
+      target: dev
+    ports:
+      - "9002:9002"
+    environment:
+      - RUST_LOG=debug
+      - SHARD_ID=shard-2
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgres://war2:war2@postgres:5432/war2
+      - REGION_MIN_X=25000
+      - REGION_MAX_X=50000
+      - REGION_MIN_Y=0
+      - REGION_MAX_Y=50000
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./sim:/app/sim
+    command: cargo watch -x "run --bin shard"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=war2
+      - POSTGRES_USER=war2
+      - POSTGRES_PASSWORD=war2
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+
+  client-dev:
+    build:
+      context: .
+      dockerfile: docker/client.Dockerfile
+      target: dev
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_GATEWAY_URL=ws://localhost:8080
+    volumes:
+      - ./client:/app/client
+      - /app/client/node_modules
+    command: npm run dev
+
+volumes:
+  postgres-data:
+  redis-data:
+
+networks:
+  default:
+    name: war2-net

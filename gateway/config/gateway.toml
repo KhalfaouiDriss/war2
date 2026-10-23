@@ -1,0 +1,31 @@
+[gateway]
+host = "0.0.0.0"
+port = 8080
+workers = 4
+
+[tls]
+cert_path = "certs/cert.pem"
+key_path = "certs/key.pem"
+
+[jwt]
+secret = "CHANGE_ME_IN_PRODUCTION"
+algorithm = "RS256"
+access_token_ttl_hours = 1
+refresh_token_ttl_days = 7
+
+[shards]
+# shard_id = "host:port"
+shard-1 = "shard-1:9001"
+shard-2 = "shard-2:9002"
+
+[redis]
+url = "redis://redis:6379"
+
+[postgres]
+url = "postgres://war2:war2@postgres:5432/war2"
+
+[rate_limits]
+input_per_second = 20
+chat_per_second = 5
+market_per_second = 10
+auth_per_minute = 5

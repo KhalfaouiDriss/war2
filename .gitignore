@@ -1,0 +1,55 @@
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+
+# Node
+node_modules/
+client/node_modules/
+client/dist/
+client/pkg/
+client/.vite/
+
+# WASM
+*.wasm
+.wasm/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Database
+*.sqlite
+*.db
+
+# Docker
+docker-compose.override.yml
+
+# Build artifacts
+dist/
+build/
+*.tar.gz
+
+# Test coverage
+coverage/
+*.profraw
+
+# Temporary files
+tmp/
+temp/
+*.tmp

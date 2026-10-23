@@ -1,0 +1,26 @@
+[package]
+name = "war2-shard"
+version = "0.1.0"
+edition = "2021"
+description = "World shard simulation for War2"
+
+[[bin]]
+name = "shard"
+path = "src/main.rs"
+
+[dependencies]
+war2-sim = { path = "../sim" }
+tokio = { workspace = true }
+serde = { workspace = true }
+postcard = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow = { workspace = true }
+clap = { workspace = true }
+config = { workspace = true }
+redis = { workspace = true }
+sqlx = { workspace = true }
+dashmap = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }

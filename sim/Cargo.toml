@@ -1,0 +1,42 @@
+[package]
+name = "war2-sim"
+version = "0.1.0"
+edition = "2021"
+description = "Core simulation logic for War2"
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+serde = { workspace = true, features = ["derive"] }
+postcard = { workspace = true }
+thiserror = { workspace = true }
+ahash = { workspace = true }
+rayon = { workspace = true }
+blake3 = { workspace = true }
+zstd = { workspace = true }
+uuid = { workspace = true, features = ["v4", "serde"] }
+chrono = { workspace = true, features = ["serde"] }
+rand = { workspace = true }
+once_cell = { workspace = true }
+serde-big-array = { workspace = true }
+
+[dev-dependencies]
+proptest = "1.2"
+criterion = "0.5"
+
+[features]
+wasm = ["wasm-bindgen", "tsify", "serde-wasm-bindgen"]
+default = []
+
+[dependencies.wasm-bindgen]
+version = "0.2"
+optional = true
+
+[dependencies.tsify]
+version = "0.5"
+optional = true
+
+[dependencies.serde-wasm-bindgen]
+version = "0.6"
+optional = true
