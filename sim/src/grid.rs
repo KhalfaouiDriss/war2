@@ -62,7 +62,7 @@ pub struct Tile {
     pub fatigue: u8,
     pub capture_progress: i16,
     pub supply_connected: bool,
-    _pad: u8, // padding for alignment
+    pub _pad: u8, // padding for alignment
 }
 
 impl Default for Tile {

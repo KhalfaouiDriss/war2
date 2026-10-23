@@ -23,7 +23,11 @@ serde-big-array = { workspace = true }
 
 [dev-dependencies]
 proptest = "1.2"
-criterion = "0.5"
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "grid_benchmarks"
+harness = false
 
 [features]
 wasm = ["wasm-bindgen", "tsify", "serde-wasm-bindgen"]
