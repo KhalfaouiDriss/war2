@@ -40,7 +40,7 @@ impl MarketSystem {
         };
 
         // Workers reduce fee (0.5% per worker, min 0%)
-        let worker_reduction = (seller_market_level as u8).min(base_fee);
+        let worker_reduction = seller_market_level.min(base_fee);
         base_fee.saturating_sub(worker_reduction)
     }
 

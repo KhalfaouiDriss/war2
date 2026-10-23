@@ -6,7 +6,6 @@ use chrono::{Duration, Utc};
 use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
-use uuid::Uuid;
 
 /// JWT claims
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -122,6 +121,7 @@ pub fn create_refresh_token(config: &AuthConfig, user_id: i64) -> Result<String>
     Ok(token)
 }
 
+#[allow(dead_code)]
 pub fn validate_token(config: &AuthConfig, token: &str) -> Result<Claims> {
     let decoding_key = DecodingKey::from_secret(config.jwt_secret.as_bytes());
     let mut validation = Validation::new(config.algorithm);
@@ -191,6 +191,7 @@ pub async fn update_last_login(pool: &PgPool, user_id: i64) -> Result<()> {
     Ok(())
 }
 
+#[allow(dead_code)]
 pub async fn get_player_season(pool: &PgPool, user_id: i64, season_id: u32) -> Result<Option<PlayerSeasonRow>> {
     let row = sqlx::query_as::<_, PlayerSeasonRow>(
         "SELECT user_id, season_id, gold, mmr, stats, techs, cosmetics FROM player_seasons WHERE user_id = $1 AND season_id = $2",
@@ -203,6 +204,7 @@ pub async fn get_player_season(pool: &PgPool, user_id: i64, season_id: u32) -> R
 }
 
 #[derive(Debug, sqlx::FromRow)]
+#[allow(dead_code)]
 pub struct PlayerSeasonRow {
     pub user_id: i64,
     pub season_id: i32,

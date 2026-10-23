@@ -3,7 +3,7 @@
 use anyhow::Result;
 use clap::Parser;
 use config::{Config, File, Environment};
-use tracing::{info, error};
+use tracing::info;
 use tracing_subscriber::{EnvFilter, fmt};
 
 mod settings;

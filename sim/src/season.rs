@@ -1,8 +1,6 @@
 //! Season system
 
 use crate::tech::PlayerTechs;
-use crate::building::BuildingType;
-use crate::grid::PixelCoord;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

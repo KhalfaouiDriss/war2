@@ -1,6 +1,6 @@
 //! Capture mechanics system
 
-use crate::grid::{WorldGrid, PixelCoord, Tile};
+use crate::grid::{WorldGrid, PixelCoord};
 use crate::config::*;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;

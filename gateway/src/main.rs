@@ -8,7 +8,7 @@ use sqlx::PgPool;
 use std::sync::Arc;
 use tokio::net::TcpListener;
 use tower_http::cors::{Any, CorsLayer};
-use tracing::{info, error};
+use tracing::info;
 use tracing_subscriber::{EnvFilter, fmt};
 
 mod settings;

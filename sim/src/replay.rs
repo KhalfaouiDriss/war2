@@ -1,10 +1,8 @@
 //! Replay system
 
-use crate::grid::PixelCoord;
 use crate::input::Input;
 use crate::types::PlayerId;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
 /// Replay file format
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -1,7 +1,6 @@
 //! Building system
 
-use crate::grid::{WorldGrid, PixelCoord, Tile};
-use crate::config::CHUNK_SIZE;
+use crate::grid::{WorldGrid, PixelCoord};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

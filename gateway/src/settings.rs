@@ -6,11 +6,15 @@ use std::collections::HashMap;
 #[derive(Debug, Clone, Deserialize)]
 pub struct GatewayConfig {
     pub gateway: GatewaySettings,
+    #[allow(dead_code)]
     pub tls: TlsSettings,
     pub jwt: JwtSettings,
+    #[allow(dead_code)]
     pub shards: HashMap<String, String>,
+    #[allow(dead_code)]
     pub redis: RedisSettings,
     pub postgres: PostgresSettings,
+    #[allow(dead_code)]
     pub rate_limits: RateLimitSettings,
 }
 
@@ -18,12 +22,15 @@ pub struct GatewayConfig {
 pub struct GatewaySettings {
     pub host: String,
     pub port: u16,
+    #[allow(dead_code)]
     pub workers: usize,
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct TlsSettings {
+    #[allow(dead_code)]
     pub cert_path: String,
+    #[allow(dead_code)]
     pub key_path: String,
 }
 
@@ -37,6 +44,7 @@ pub struct JwtSettings {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct RedisSettings {
+    #[allow(dead_code)]
     pub url: String,
 }
 
@@ -47,8 +55,12 @@ pub struct PostgresSettings {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct RateLimitSettings {
+    #[allow(dead_code)]
     pub input_per_second: u32,
+    #[allow(dead_code)]
     pub chat_per_second: u32,
+    #[allow(dead_code)]
     pub market_per_second: u32,
+    #[allow(dead_code)]
     pub auth_per_minute: u32,
 }

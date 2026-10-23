@@ -69,6 +69,12 @@ pub struct TechTree {
     by_branch_tier: HashMap<(TechBranch, u8), Vec<u32>>,
 }
 
+impl Default for TechTree {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TechTree {
     pub fn new() -> Self {
         let mut tree = TechTree {
@@ -237,6 +243,12 @@ pub struct PlayerTechs {
     pub progress: u64,
 }
 
+impl Default for PlayerTechs {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PlayerTechs {
     pub fn new() -> Self {
         PlayerTechs {
@@ -259,8 +271,8 @@ impl PlayerTechs {
     }
 
     pub fn add_progress(&mut self, amount: u64, tree: &TechTree) -> Option<u32> {
-        let Some(tech_id) = self.researching else { return None; };
-        let Some(node) = tree.get(tech_id) else { return None; };
+        let tech_id = self.researching?;
+        let node = tree.get(tech_id)?;
         self.progress += amount;
         if self.progress >= node.cost {
             self.unlocked.insert(tech_id);

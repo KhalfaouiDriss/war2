@@ -37,12 +37,7 @@ fn set_refresh_cookie(headers: &mut HeaderMap, refresh_token: &str, max_age: i64
     headers.insert(SET_COOKIE, cookie.parse().unwrap());
 }
 
-fn clear_refresh_cookie(headers: &mut HeaderMap) {
-    let cookie = format!(
-        "refresh_token=; HttpOnly; Secure; SameSite=Strict; Max-Age=0; Path=/"
-    );
-    headers.insert(SET_COOKIE, cookie.parse().unwrap());
-}
+
 
 pub async fn register(
     State(state): State<Arc<AppState>>,
@@ -160,7 +155,7 @@ pub async fn login(
 }
 
 pub async fn refresh(
-    State(state): State<Arc<AppState>>,
+    State(_state): State<Arc<AppState>>,
 ) -> impl IntoResponse {
     // For refresh, we'd need to extract the refresh token from cookies
     // For now, return not implemented
@@ -169,7 +164,7 @@ pub async fn refresh(
 
 pub async fn logout() -> impl IntoResponse {
     let mut headers = HeaderMap::new();
-    let cookie = format!("refresh_token=; HttpOnly; Secure; SameSite=Strict; Max-Age=0; Path=/");
+    let cookie = "refresh_token=; HttpOnly; Secure; SameSite=Strict; Max-Age=0; Path=/".to_string();
     headers.insert(axum::http::header::SET_COOKIE, cookie.parse().unwrap());
     
     let response = Json(AuthResponse {

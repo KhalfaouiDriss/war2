@@ -3,7 +3,7 @@
 use anyhow::Result;
 use clap::Parser;
 use config::{Config, File, Environment};
-use tracing::{info, error};
+use tracing::info;
 use tracing_subscriber::{EnvFilter, fmt};
 
 mod settings;
@@ -29,7 +29,7 @@ async fn main() -> Result<()> {
         .add_source(Environment::with_prefix("STATE"))
         .build()?;
     
-    let cfg: settings::StateServiceConfig = settings.try_deserialize()?;
+    let _cfg: settings::StateServiceConfig = settings.try_deserialize()?;
     
     info!("Starting War2 State Service");
     

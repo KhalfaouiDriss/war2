@@ -1,7 +1,6 @@
 //! Pixel grid implementation with chunked storage
 
 use ahash::AHasher;
-use postcard::to_extend;
 use serde::{Deserialize, Serialize};
 use serde_big_array::BigArray;
 use std::collections::HashMap;
@@ -52,7 +51,7 @@ impl PixelCoord {
 }
 
 /// 20-byte tile data (16-byte + fatigue + capture_progress + supply_connected)
-#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Default)]
 #[repr(C)]
 pub struct Tile {
     pub owner: u32,
@@ -65,20 +64,7 @@ pub struct Tile {
     pub _pad: u8, // padding for alignment
 }
 
-impl Default for Tile {
-    fn default() -> Self {
-        Tile {
-            owner: 0,
-            army_pct: 0,
-            building: 0,
-            resources: [0, 0, 0, 0],
-            fatigue: 0,
-            capture_progress: 0,
-            supply_connected: false,
-            _pad: 0,
-        }
-    }
-}
+
 
 /// Chunk of 64x64 = 4096 tiles
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -89,13 +75,19 @@ pub struct Chunk {
     pub version: u64,
 }
 
-impl Chunk {
-    pub fn new() -> Self {
+impl Default for Chunk {
+    fn default() -> Self {
         Chunk {
             tiles: [Tile::default(); CHUNK_TILES],
             dirty: false,
             version: 0,
         }
+    }
+}
+
+impl Chunk {
+    pub fn new() -> Self {
+        Self::default()
     }
 
     fn tile_idx(x: u32, y: u32) -> usize {
@@ -128,7 +120,7 @@ impl WorldGrid {
     }
 
     pub fn get_chunk(&mut self, coord: ChunkCoord) -> &mut Chunk {
-        self.chunks.entry(coord).or_insert_with(Chunk::new)
+        self.chunks.entry(coord).or_default()
     }
 
     pub fn get_tile(&mut self, pos: PixelCoord) -> Tile {
@@ -199,9 +191,7 @@ impl WorldGrid {
 
     pub fn snapshot_delta(&self) -> Vec<u8> {
         let dirty: Vec<_> = self.dirty_chunks().into_iter().collect();
-        let buf = Vec::new();
-        let buf = postcard::to_extend(&dirty, buf).unwrap();
-        buf
+        postcard::to_extend(&dirty, Vec::new()).unwrap()
     }
 
     pub fn active_tiles(&self) -> usize {
